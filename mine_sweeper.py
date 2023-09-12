@@ -25,12 +25,21 @@ class board():
         for x in range(bombs):
             location = [None, None]
             while location not in laid_bombs:
-                location = [rand.randint(1,11),rand.randint(1,11)]
+                location = [rand.randint(1,self.size+1),rand.randint(1,self.size+1)]
                 laid_bombs.append(location)
         return laid_bombs
 
 
-    
-my_board = board(10,10)
-my_board.build_board()
-print(my_board.lay_bombs())
+
+def play_mineSweeper(size, bombs):  
+    my_board = board(size,bombs)
+    my_board.build_board()
+    print(my_board.lay_bombs())
+    while True:
+        row = input("Choose a row: ")
+        column = input("Choose a column: ")
+        print(row)
+        print(column)
+        break
+
+play_mineSweeper(10,10)
