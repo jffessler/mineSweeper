@@ -29,17 +29,34 @@ class board():
                 laid_bombs.append(location)
         return laid_bombs
 
+class sweeper():
+
+    def __init__(self,row,column,board, bomb_location):
+        self.row = row
+        self.column = column
+        self.board = board
+        self.bomb_location = bomb_location
+        self.check = [int(self.row), int(self.column)]
+
+    def check_bomb(self):
+        print(self.check)
+        if self.check in self.bomb_location:
+            ## show revealed board
+            return print("You hit a mine! You Died!")
+        else:
+            return print("check the next square!")
 
 
 def play_mineSweeper(size, bombs):  
     my_board = board(size,bombs)
     my_board.build_board()
-    print(my_board.lay_bombs())
+    bomb_location = my_board.lay_bombs()
+    print(bomb_location)
     while True:
         row = input("Choose a row: ")
         column = input("Choose a column: ")
-        print(row)
-        print(column)
+        player = sweeper(row,column,my_board,bomb_location)
+        player.check_bomb()
         break
 
 play_mineSweeper(10,10)
