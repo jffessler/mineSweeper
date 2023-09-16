@@ -22,12 +22,20 @@ class board():
     def lay_bombs(self):
         bombs = self.num_bombs
         laid_bombs = []
-        ## problem here, issue with number of bombs and unique bomb location
+        ## problem here, issue with unique bomb locations
+        count = 0
+        count2 = 0
         for x in range(bombs):
             location = [None, None]
             while location not in laid_bombs:
-                location = [rand.randint(1,self.size),rand.randint(1,self.size)]
+                print(count2)
+                row = rand.randint(1,self.size)
+                column = rand.randint(1,self.size)
+                location = [row,column]
                 laid_bombs.append(location)
+            print(count)
+            count2 =+ 1
+            count += 1
         return laid_bombs
 
     def board_answer(self, bomb_locations):
