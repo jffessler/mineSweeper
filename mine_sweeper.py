@@ -21,43 +21,38 @@ class board():
     
     def lay_bombs(self):
         bombs = self.num_bombs
-        laid_bombs = []
-        ## problem here, issue with unique bomb locations
+        laid_bombs = set()
         count = 0
-        count2 = 0
-        for x in range(bombs):
-            location = [None, None]
-            while location not in laid_bombs:
-                print(count2)
-                row = rand.randint(1,self.size)
-                column = rand.randint(1,self.size)
-                location = [row,column]
-                laid_bombs.append(location)
-            print(count)
-            count2 =+ 1
-            count += 1
+        while count < bombs:
+            row = rand.randint(1,self.size)
+            col = rand.randint(1,self.size)
+            if (row, col) not in laid_bombs:
+                    laid_bombs.add((row, col))
+                    count += 1
+            else:
+                continue
         return laid_bombs
 
     def board_answer(self, bomb_locations):
         count = 1
         board = np.zeros((self.size+1,self.size+1))
+        # print('board: ', board)
         for index in range(self.size+1):
             board[0][index] = index
             board[index][0] = index
         for mine in bomb_locations:
+            # print('mine: ', mine)
             row = mine[0]
-            # print(row)
             column = mine[1]
-            # print(column)
             board[row][column]=9
         for row1 in range(self.size+1):
             if row1 > 0:
                 for column1 in range(self.size+1):
                     if column1 > 0:
                         if board[row1][column1] == 9:
-                            board[row1][column1] = 10
-                        else:
                             board[row1][column1] = None
+                        else:
+                            board[row1][column1] = 0
         return print(board)
 
 class sweeper():
@@ -82,7 +77,7 @@ def play_mineSweeper(size, bombs):
     my_board = board(size,bombs)
     my_board.build_board()
     bomb_location = my_board.lay_bombs()
-    print(bomb_location)
+    # print(bomb_location)
     my_board.board_answer(bomb_location)
     while True:
         row = input("Choose a row: ")
@@ -91,4 +86,4 @@ def play_mineSweeper(size, bombs):
         player.check_bomb()
         break
 
-play_mineSweeper(10,100)
+play_mineSweeper(10,10)
