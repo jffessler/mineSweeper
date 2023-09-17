@@ -52,6 +52,10 @@ class board():
                         if board[row1][column1] == 9:
                             board[row1][column1] = None
                         else:
+                            num_of_bombs = 0
+                            if board[row1-1][column1-1] == None:
+                                num_of_bombs += 1
+                            ### the other 7 cases for counting an adjacent bomb, maybe use a recursive function call to reduce number of cases and clutter
                             board[row1][column1] = 0
         return print(board)
 
