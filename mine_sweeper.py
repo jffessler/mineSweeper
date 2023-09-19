@@ -9,7 +9,7 @@ class board():
 
     def build_board(self):
         count = 1
-        board = np.zeros((self.size+2,self.size+2))
+        board = np.zeros((self.size+1,self.size+1))
         for index in range(self.size+1):
             board[0][index] = index
             board[index][0] = index
@@ -17,7 +17,7 @@ class board():
                 if count < self.size+1:
                     board[count][all+1]=None
             count += 1
-        return print(board)
+        return board
     
     def lay_bombs(self):
         bombs = self.num_bombs
@@ -34,15 +34,12 @@ class board():
         return laid_bombs
 
     def board_answer(self, bomb_locations):
-        count = 1
         translations = [(-1,-1),(-1,0),(-1,1),(0,-1),(0,1),(1,-1),(1,0),(1,1)]
         board = np.zeros((self.size + 1, self.size + 1))
-        # print('board: ', board)
         for index in range(self.size+1):
             board[0][index] = index
             board[index][0] = index
         for mine in bomb_locations:
-            # print('mine: ', mine)
             row = mine[0]
             column = mine[1]
             board[row][column] = 11
@@ -51,7 +48,6 @@ class board():
                 for column1 in range(self.size + 1):
                     if column1 > 0:
                         if board[row1][column1] == 11:
-                            # board[row1][column1] = None
                             continue
                         else:
                             num_of_bombs = 0
@@ -62,43 +58,21 @@ class board():
                                     if board[new_row][new_column] == 11:
                                         num_of_bombs += 1
 
-                            
-                            # if board[row1-1][column1-1] == None: #top left
-                            #     print('it worked')
-                            #     num_of_bombs += 1
-                            # elif board[row1-1][column1] == None: #above
-                            #     print('it worked')
-                            #     num_of_bombs += 1
-                            # elif board[row1][column1+1] == None: #top right
-                            #     print('it worked')
-                            #     num_of_bombs += 1
-                            # elif board[row1][column1-1] == None: #left
-                            #     print('it worked')
-                            #     num_of_bombs += 1
-                            # elif board[row1][column1+1] == None: #right
-                            #     print('it worked')
-                            #     num_of_bombs += 1
-                            # elif board[row1+1][column1-1] == None: #bottom left
-                            #     print('it worked')
-                            #     num_of_bombs += 1
-                            # elif board[row1+1][column1] == None: #below
-                            #     print('it worked')
-                            #     num_of_bombs += 1
-                            # elif board[row1+1][column1+1] == None: #bottom right
-                            #     print('it worked')
-                            #     num_of_bombs += 1
-                            ### the other 7 cases for counting an adjacent bomb, maybe use a recursive function call to reduce number of cases and clutter
                             board[row1][column1] = num_of_bombs
-        return print(board)
+        return board
 
 class sweeper():
 
-    def __init__(self,row,column,board, bomb_location):
-        self.row = row
-        self.column = column
+    def __init__(self,row,column,board, bomb_location, answers):
+        self.row = int(row)
+        self.column = int(column)
         self.board = board
         self.bomb_location = bomb_location
         self.check = (int(self.row), int(self.column))
+        self.answers = answers
+
+    def board_update(self):
+        self.board[self.row][self.column] = self.answers[self.row][self.column]
 
     def check_bomb(self):
         print(self.check)
@@ -107,20 +81,23 @@ class sweeper():
             ## show revealed board
             return print("You hit a mine! You Died!")
         else:
-            return print("check the next square!")
-
+            print("check the next square!")
+            self.board_update()
+            print(self.board)
 
 def play_mineSweeper(size, bombs):  
     my_board = board(size,bombs)
-    my_board.build_board()
+    theBoard = my_board.build_board()
+    print(theBoard)
     bomb_location = my_board.lay_bombs()
     # print(bomb_location)
-    my_board.board_answer(bomb_location)
+    answers = my_board.board_answer(bomb_location)
+    print(answers)
     while True:
         row = input("Choose a row: ")
         column = input("Choose a column: ")
-        player = sweeper(row,column,my_board,bomb_location)
+        player = sweeper(row,column,theBoard,bomb_location,answers)
         player.check_bomb()
         break
 
-play_mineSweeper(10,50)
+play_mineSweeper(10,10)
