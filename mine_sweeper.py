@@ -79,11 +79,14 @@ class sweeper():
         
         if self.check in self.bomb_location:
             ## show revealed board
-            return print("You hit a mine! You Died!")
+            print("You hit a mine! You Died!")
+            print(self.answers)
+            return False
         else:
             print("check the next square!")
             self.board_update()
             print(self.board)
+            return True
 
 def play_mineSweeper(size, bombs):  
     my_board = board(size,bombs)
@@ -93,11 +96,12 @@ def play_mineSweeper(size, bombs):
     # print(bomb_location)
     answers = my_board.board_answer(bomb_location)
     print(answers)
-    while True:
+    check_move = True
+    while check_move == True:
         row = input("Choose a row: ")
         column = input("Choose a column: ")
         player = sweeper(row,column,theBoard,bomb_location,answers)
-        player.check_bomb()
-        break
+        check_move = player.check_bomb()
+        # break
 
 play_mineSweeper(10,10)
