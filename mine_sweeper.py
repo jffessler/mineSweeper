@@ -68,20 +68,27 @@ class sweeper():
         self.column = int(column)
         self.board = board
         self.bomb_location = bomb_location
-        self.check = (int(self.row), int(self.column))
+        self.check = (self.row, self.column)
         self.answers = answers
 
     def board_update(self):
         self.board[self.row][self.column] = self.answers[self.row][self.column]
 
+    def open_empty_space(self, zero_row, zero_column):
+        #reveal all zeros around a selected zero
+        self.board_update()
+
     def check_bomb(self):
-        print(self.check)
-        
         if self.check in self.bomb_location:
             ## show revealed board
             print("You hit a mine! You Died!")
             print(self.answers)
             return False
+        elif self.answers[self.row][self.column] == 0:
+            print("check the next square!")
+            self.open_empty_space(self.row,self.column)
+            print(self.board)
+            return True
         else:
             print("check the next square!")
             self.board_update()
@@ -102,6 +109,6 @@ def play_mineSweeper(size, bombs):
         column = input("Choose a column: ")
         player = sweeper(row,column,theBoard,bomb_location,answers)
         check_move = player.check_bomb()
-        # break
+
 
 play_mineSweeper(10,10)
