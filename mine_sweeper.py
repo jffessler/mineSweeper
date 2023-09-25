@@ -61,33 +61,38 @@ class board():
                             board[row1][column1] = num_of_bombs
         return board
     
-    # def zero_sets(self, answers):
-    #     translations = [(-1,-1),(-1,0),(-1,1),(0,-1),(0,1),(1,-1),(1,0),(1,1)]
-    #     zeros = set()
-    #     zeros_subset = set()
-    #     for row in range(self.size+1):
-    #         if row > 0:
-    #             for column in range(self.size + 1):
-    #                 column > 0
-    #                 if answers[row][column] == 0:
-    #                     zeros_subset.add((row,column))
-    #                     count = 1
-    #                     while True:
-    #                         for row1, column1 in translations:
-    #                             row2 = row1*count
-    #                             column2 = column1*count
-    #                             if row2 < self.size + 1 and column2 < self.size + 1:
-    #                                 if answers[row2][column2] == 0:
-    #                                     zeros_subset.add(row2,column2)
-    #                                 else:
-    #                                     continue
-    #                             else:
-    #                                 break
-    #                             count += 1
-    #                 else:
-    #                     continue
-    #         zeros.add(zeros_subset)
-    #     return zeros
+    def zero_sets(self, answers):
+        translations = [(-1,-1),(-1,0),(-1,1),(0,-1),(0,1),(1,-1),(1,0),(1,1)]
+        zeros = []
+        zeros_subset = []
+        for row in range(self.size+1):
+            if row > 0:
+                for column in range(self.size + 1):
+                    column > 0
+                    if answers[row][column] == 0:
+                        zeros_subset.append((row,column))
+                        count = 1
+                        while True:
+                            for row1, column1 in translations:
+                                print("row",row1)
+                                print("column",column1)
+                                row2 = row1*count
+                                column2 = column1*count
+                                if abs(row2) < self.size + 1 and abs(column2) < self.size + 1:
+                                    print(row2)
+                                    if answers[row2][column2] == 0:
+                                        print("here")
+                                        zeros_subset.append((row2,column2))
+                                        # zeros_subset.add(row2,column2)
+                                    else:
+                                        continue
+                                else:
+                                    break
+                                count += 1
+                    else:
+                        continue
+            zeros.append(zeros_subset)
+        return zeros
 
 
 class sweeper():
@@ -140,8 +145,8 @@ def play_mineSweeper(size, bombs):
     bomb_location = my_board.lay_bombs()
     answers = my_board.board_answer(bomb_location)
     print(answers)
-    # zero_set = my_board.zero_sets(answers)
-    # print(zero_set)
+    zero_set = my_board.zero_sets(answers)
+    print(zero_set)
     check_move = True
     while check_move == True:
         row = input("Choose a row: ")
