@@ -80,17 +80,11 @@ class board():
                                 row2 = row + row1 * count
                                 column2 = column + column1 * count
                                 print(count)
-                                # if abs(row2) < self.size + 1 and abs(column2) < self.size + 1 and row2 >= row1*count and column2 >= column1*count:
-                                # if row2 > row1*count - 1 and column2 > column1*count - 1:
-                                # if abs(row2) < self.size + 1 and abs(column2) < self.size + 1:
-                                # if row2 < self.size + 1 and column2 < self.size + 1:
                                 if 0 <= row2 < self.size + 1 and 0 <= column2 < self.size + 1:
                                     print('---------------')
                                     if answers[row2][column2] == 0 and (row2,column2) not in zero_check:
                                         zeros_subset.add((row2,column2))
                                         zero_check.append((row2,column2))
-                                    # else:
-                                    #     continue
                                 else:
                                     print("break out")
                                     run = False
