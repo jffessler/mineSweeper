@@ -64,30 +64,37 @@ class board():
     def zero_sets(self, answers):
         translations = [(-1,-1),(-1,0),(-1,1),(0,-1),(0,1),(1,-1),(1,0),(1,1)]
         zeros = []
-        zeros_subset = []
+        zero_check =[]
+        zeros_subset = set()
         for row in range(self.size+1):
             if row > 0:
                 for column in range(self.size + 1):
                     column > 0
                     if answers[row][column] == 0:
-                        zeros_subset.append((row,column))
+                        zeros_subset.add((row,column))
+                        zero_check.append((row,column))
                         count = 1
-                        while True:
+                        run = True
+                        while run:
                             for row1, column1 in translations:
-                                print("row",row1)
-                                print("column",column1)
-                                row2 = row1*count
-                                column2 = column1*count
-                                if abs(row2) < self.size + 1 and abs(column2) < self.size + 1:
-                                    print(row2)
-                                    if answers[row2][column2] == 0:
-                                        print("here")
-                                        zeros_subset.append((row2,column2))
-                                        # zeros_subset.add(row2,column2)
-                                    else:
-                                        continue
+                                row2 = row + row1 * count
+                                column2 = column + column1 * count
+                                print(count)
+                                # if abs(row2) < self.size + 1 and abs(column2) < self.size + 1 and row2 >= row1*count and column2 >= column1*count:
+                                # if row2 > row1*count - 1 and column2 > column1*count - 1:
+                                # if abs(row2) < self.size + 1 and abs(column2) < self.size + 1:
+                                # if row2 < self.size + 1 and column2 < self.size + 1:
+                                if 0 <= row2 < self.size + 1 and 0 <= column2 < self.size + 1:
+                                    print('---------------')
+                                    if answers[row2][column2] == 0 and (row2,column2) not in zero_check:
+                                        zeros_subset.add((row2,column2))
+                                        zero_check.append((row2,column2))
+                                    # else:
+                                    #     continue
                                 else:
-                                    break
+                                    print("break out")
+                                    run = False
+                                print("end of line")
                                 count += 1
                     else:
                         continue
