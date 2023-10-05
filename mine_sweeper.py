@@ -121,6 +121,29 @@ class sweeper():
             if self.answers[new_row][new_column] != 11:
                 self.board_update()
 
+    def zero_reveal(self, zero_row, zero_column):
+        tag = 0 
+        # row = None 
+        # column = None
+        frame = (zero_row,zero_column,tag)
+        reference = [frame]
+        translations = [(-1,-1),(-1,0),(-1,1),(0,-1),(0,1),(1,-1),(1,0),(1,1)]
+        #reveal all zeros around a selected zero
+        # self.board_update()
+        for x, y in translations:
+            new_row = zero_row + x
+            new_column = zero_column + y
+            self.row = new_row
+            self.column = new_column
+            if self.answers[new_row][new_column] == 0:
+                # self.board_update()
+                frame = (new_row,new_column,tag)
+                reference.append(frame)
+            elif 0 < self.answers[new_row][new_column] < 11:
+                frame = (new_row,new_column,1)
+                reference.append(frame)
+        ### now iterate through all the points that are now stored in the reference array 
+
 
     def check_bomb(self):
         if self.check in self.bomb_location:
